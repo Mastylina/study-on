@@ -6,16 +6,14 @@ use App\Repository\CourseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-/**
- * @ORM\Entity
- * @UniqueEntity(
- *     fields={"character_code"},
- *     errorPath="character_code",
- *     message="This is already a Course with this character_code."
- * )
- */
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
+ * @UniqueEntity(
+ *     fields={"code"},
+ *     message="This is already a Course with this code."
+ * )
  */
 class Course
 {
@@ -29,12 +27,12 @@ class Course
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $character_code;
+    private $code;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name_course;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=1000)
@@ -42,7 +40,7 @@ class Course
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="cours_lesson",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="course",cascade={"persist"})
      */
     private $lessons;
 
@@ -56,26 +54,26 @@ class Course
         return $this->id;
     }
 
-    public function getCharactercode(): ?string
+    public function getCode(): ?string
     {
-        return $this->character_code;
+        return $this->code;
     }
 
-    public function setCharactercode(string $character_code): self
+    public function setCode(string $code): self
     {
-        $this->character_code = $character_code;
+        $this->code = $code;
 
         return $this;
     }
 
-    public function getnameCourse(): ?string
+    public function getName(): ?string
     {
-        return $this->name_course;
+        return $this->name;
     }
 
-    public function setnameCourse(string $name_course): self
+    public function setName(string $name): self
     {
-        $this->name_course = $name_course;
+        $this->name = $name;
 
         return $this;
     }
@@ -104,7 +102,7 @@ class Course
     {
         if (!$this->lessons->contains($lesson)) {
             $this->lessons[] = $lesson;
-            $lesson->setCoursLesson($this);
+            $lesson->setCourse($this);
         }
 
         return $this;
@@ -114,8 +112,8 @@ class Course
     {
         if ($this->lessons->removeElement($lesson)) {
             // set the owning side to null (unless already changed)
-            if ($lesson->getCoursLesson() === $this) {
-                $lesson->setCoursLesson(null);
+            if ($lesson->getCourse() === $this) {
+                $lesson->setCourse(null);
             }
         }
 

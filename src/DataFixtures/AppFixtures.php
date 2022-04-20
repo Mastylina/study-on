@@ -12,8 +12,8 @@ class AppFixtures extends Fixture
     {
         // Курс программировагние на языке Python
         $pythonCourse = new Course();
-        $pythonCourse->setCharactercode('PPBI');
-        $pythonCourse->setnameCourse('Программирование на Python');
+        $pythonCourse->setCode('PPBI');
+        $pythonCourse->setName('Программирование на Python');
         $pythonCourse->setDescription(
             'В этом курсе по программированию на языке Python вы познакомитесь ' .
             'с базовыми понятиями программирования. Едва ли возможно научиться программировать без практики, ' .
@@ -23,48 +23,48 @@ class AppFixtures extends Fixture
 
         // Урок 1
         $lesson = new Lesson();
-        $lesson->setNameLesson('Общая информация о курсе');
-        $lesson->setContentLesson(
+        $lesson->setName('Общая информация о курсе');
+        $lesson->setContent(
             'В этом вводном уроке мы расскажем вам о том, что вас ждёт, и дадим рекомендации ' .
             'по прохождению курса. Жмите кнопку «вправо», чтобы перейти к следующему шагу.'
         );
-        $lesson->setnumberLesson(1);
+        $lesson->setNumber(1);
         $pythonCourse->addLesson($lesson);
 
         // Урок 2
         $lesson = new Lesson();
-        $lesson->setNameLesson('Введение: программы и Python. Проверка заданий');
-        $lesson->setContentLesson(
+        $lesson->setName('Введение: программы и Python. Проверка заданий');
+        $lesson->setContent(
             'Мы начнем знакомство с языком Python с обзора самых базовых его возможностей, которые в то же ' .
             'время являются фундаментальными для разработки алгоритмов на большинстве широко используемых ' .
             'языков программирования: арифметические и логические операции, ' .
             'работа с переменными, условия, порядок выполнения.'
         );
-        $lesson->setnumberLesson(2);
+        $lesson->setNumber(2);
         $pythonCourse->addLesson($lesson);
 
         // Урок 3
         $lesson = new Lesson();
-        $lesson->setNameLesson('Операции с целыми числами');
-        $lesson->setContentLesson('В этом уроке мы начнем пользоваться IPython Notebook.');
-        $lesson->setnumberLesson(3);
+        $lesson->setName('Операции с целыми числами');
+        $lesson->setContent('В этом уроке мы начнем пользоваться IPython Notebook.');
+        $lesson->setNumber(3);
         $pythonCourse->addLesson($lesson);
 
         // Урок 4
         $lesson = new Lesson();
-        $lesson->setNameLesson('Операции с вещественными числами');
-        $lesson->setContentLesson(
+        $lesson->setName('Операции с вещественными числами');
+        $lesson->setContent(
             'В этом уроке мы рассмотрим математические операции с вещественными числами в языке Python.'
         );
-        $lesson->setnumberLesson(4);
+        $lesson->setNumber(4);
         $pythonCourse->addLesson($lesson);
 
         $manager->persist($pythonCourse);
 
         // Курс Математическая статистика
         $statCourse = new Course();
-        $statCourse->setCharactercode('MSC');
-        $statCourse->setnameCourse('Математическая статистика');
+        $statCourse->setCode('MSC');
+        $statCourse->setName('Математическая статистика');
         $statCourse->setDescription(
             'В рамках данного курса вы научитесь визуализировать данные; на основе наблюдаемых ' .
             'данных строить оценки неизвестных параметров распределения; узнаете, какие оценки являются хорошими; ' .
@@ -76,8 +76,8 @@ class AppFixtures extends Fixture
 
         // Урок 1
         $lesson = new Lesson();
-        $lesson->setNameLesson('Общие рекомендации. Моделирование');
-        $lesson->setContentLesson(
+        $lesson->setName('Общие рекомендации. Моделирование');
+        $lesson->setContent(
             'Освежите в памяти основные понятия и теоремы "Теории вероятностей": ' .
             'случайное событие, вероятностное пространство;  случайная величина; закон распределения ' .
             'случайной величины (распределение вероятностей, функция распределения, плотность распределения); ' .
@@ -88,48 +88,48 @@ class AppFixtures extends Fixture
             'распределений (норамльный, равномерный на [a,b], экспоненциальный, логистический, ' .
             'Пуассона, геометрический, биномиальный и др) .'
         );
-        $lesson->setnumberLesson(1);
+        $lesson->setNumber(1);
         $statCourse->addLesson($lesson);
 
         // Урок 2
         $lesson = new Lesson();
-        $lesson->setNameLesson('Краткий обзор понятий теории вероятностей');
-        $lesson->setContentLesson(
+        $lesson->setName('Краткий обзор понятий теории вероятностей');
+        $lesson->setContent(
             'Пространством элементарных событий W называется множество, содержащее ' .
             'все возможные результаты случайного эксперимента, из которых в эксперименте происходит ' .
             'ровно один. Элементы w этого множества называют элементарными исходами.'
         );
-        $lesson->setnumberLesson(2);
+        $lesson->setNumber(2);
         $statCourse->addLesson($lesson);
 
         // Урок 3
         $lesson = new Lesson();
-        $lesson->setNameLesson('Выборка. Выборочное пространство');
-        $lesson->setContentLesson(
+        $lesson->setName('Выборка. Выборочное пространство');
+        $lesson->setContent(
             'Основные задачи математической статистики: приближенное определение вероятности события по ' .
             'относительной частоте, нахождение приближенного закона распределения с.в, оценивание ' .
             'числовых характеристик или параметров распределения с.в., проверка статистических гипотез, ' .
             'определение эмпирической зависимости между переменными, описывающими случайное явление'
         );
-        $lesson->setnumberLesson(3);
+        $lesson->setNumber(3);
         $statCourse->addLesson($lesson);
 
         // Урок 4
         $lesson = new Lesson();
-        $lesson->setNameLesson('Описательная статистика');
-        $lesson->setContentLesson(
+        $lesson->setName('Описательная статистика');
+        $lesson->setContent(
             'Цель обработка, систематизация, графическое представление, ' .
             'расчет числовых статистических характеристик эмпирических данных'
         );
-        $lesson->setnumberLesson(4);
+        $lesson->setNumber(4);
         $statCourse->addLesson($lesson);
 
         $manager->persist($statCourse);
 
         // Курс подготовки вожатых
         $campCourse = new Course();
-        $campCourse->setCharactercode('CAMP');
-        $campCourse->setnameCourse('Курс подготовки вожатых');
+        $campCourse->setCode('CAMP');
+        $campCourse->setName('Курс подготовки вожатых');
         $campCourse->setDescription(
             'Смешанный курс (оффлайн и онлайн) был разработан для подготовки педсостава #лагерьче, ' .
             'но доступен для широкого круга пользователей, которые хотят разобраться, как устроена работа с ' .
@@ -139,8 +139,8 @@ class AppFixtures extends Fixture
 
         // Урок 1
         $lesson = new Lesson();
-        $lesson->setNameLesson('Логика развития смены ');
-        $lesson->setContentLesson(
+        $lesson->setName('Логика развития смены ');
+        $lesson->setContent(
             'Линейную смену можно сравнить с пеналом: много разных элементов, которые объединяет ' .
             'одно пространство. В основе проектирования данных видов смен применяется мероприятийный подход: ' .
             'берется набор мероприятий и распределяется по  сетке в соответствии с определенными правилами. ' .
@@ -150,13 +150,13 @@ class AppFixtures extends Fixture
             'образовательная программа, но существуют кружки, которые могут быть абсолютно разной ' .
             'направленности. Участниками могут быть любые дети.'
         );
-        $lesson->setnumberLesson(1);
+        $lesson->setNumber(1);
         $campCourse->addLesson($lesson);
 
         // Урок 2
         $lesson = new Lesson();
-        $lesson->setNameLesson('Отряд: группа команда');
-        $lesson->setContentLesson(
+        $lesson->setName('Отряд: группа команда');
+        $lesson->setContent(
             'Не стоит сразу ожидать, что ваш отряд сразу станет командой. И иногда, к сожалению, отряд не ' .
             'превращается в команду и к концу смены. Для формирования требуется время, и в этом процессе люди ' .
             'проходят через вполне различимые и определённые стадии "созревания" - от группы незнакомых друг ' .
@@ -165,13 +165,13 @@ class AppFixtures extends Fixture
             'отряд, сможет быстрее помочь команде и каждому ребенку достичь целей, ' .
             'которые ребята поставили на эту смену.'
         );
-        $lesson->setnumberLesson(2);
+        $lesson->setNumber(2);
         $campCourse->addLesson($lesson);
 
         // Урок 3
         $lesson = new Lesson();
-        $lesson->setNameLesson('Отрядная работа');
-        $lesson->setContentLesson(
+        $lesson->setName('Отрядная работа');
+        $lesson->setContent(
             'Детям в лагере нужно постоянно представляются возможности для самореализации: ' .
             'в творчестве, спорте, интеллектуальной деятельности. Это именно то, для чего они приезжают ' .
             'лагерь и над чем работает вся команда педагогического состава. Если такое пространство не ' .
@@ -179,19 +179,19 @@ class AppFixtures extends Fixture
             'быть небезопасно и противоречить целям смены. В лагере есть очевидная примета: если в отряде ' .
             'постоянно ЧП и травматизм, то педагогическая команда отряда не занимается детьми. '
         );
-        $lesson->setnumberLesson(3);
+        $lesson->setNumber(3);
         $campCourse->addLesson($lesson);
 
         // Урок 4
         $lesson = new Lesson();
-        $lesson->setNameLesson('Как учитывать возрастные особенности');
-        $lesson->setContentLesson(
+        $lesson->setName('Как учитывать возрастные особенности');
+        $lesson->setContent(
             'Возрастная характеристика среднего возраста (10-14 лет) Ребята в этом возрасте бурно проявляют ' .
             'эмоции, что влечет за собой большое количество конфликтов, причем не только со сверстниками, ' .
             'но и со взрослыми – родителями, вожатыми, сотрудниками лагеря. ' .
             'Объясняется это началом процесса полового созревания.'
         );
-        $lesson->setnumberLesson(4);
+        $lesson->setNumber(4);
         $campCourse->addLesson($lesson);
 
         $manager->persist($campCourse);
