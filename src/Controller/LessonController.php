@@ -27,11 +27,12 @@ class LessonController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_lesson_new", methods={"GET", "POST"})
+     * @Route("/new/{course}", name="app_lesson_new", methods={"GET", "POST"})
      */
     public function new(Request $request, LessonRepository $lessonRepository, Course $course): Response
     {
         $lesson = new Lesson();
+        $lesson->setCourse($course);
         $form = $this->createForm(LessonType::class, $lesson);
         $form->handleRequest($request);
 
@@ -43,6 +44,7 @@ class LessonController extends AbstractController
         return $this->renderForm('lesson/new.html.twig', [
             'lesson' => $lesson,
             'form' => $form,
+            'course' => $course,
         ]);
     }
 
