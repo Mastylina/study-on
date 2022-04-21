@@ -18,7 +18,7 @@
         <tr>
             <h3>Список уроков:</h3>
             <ol>
-                {% for lesson in course.lessons|sort((a,b)=> a.number <=> b.number ) %}
+                {% for lesson in lessons %}
                     <li>
                         <a href="{{ path('app_lesson_show', {'id': lesson.id}) }}">
                             {{ lesson.name }}</a>

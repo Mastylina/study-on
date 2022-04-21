@@ -44,7 +44,16 @@ class LessonRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
+    public function  findByCourse ($course)
+    {
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.course = :course')
+            ->setParameter('course', $course)
+            ->orderBy('l.number', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Lesson[] Returns an array of Lesson objects
     //  */
