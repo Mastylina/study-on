@@ -35,12 +35,12 @@ class Course
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=1000)
+     * @ORM\Column(type="string", length=1000, nullable="true")
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="course",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Lesson::class, mappedBy="course",cascade={"persist"}, orphanRemoval="true")
      */
     private $lessons;
 
