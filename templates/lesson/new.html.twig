@@ -3,8 +3,9 @@
 {% block title %}New Lesson{% endblock %}
 
 {% block body %}
-    <h1>Создание нового урока</h1>
-
-    {{ include('lesson/_form.html.twig') }}
-    <a href="{{ path('app_course_show', {'id': lesson.course.id}) }}">{{lesson.course.name}}</a>
+    <div class="container-fluid">
+        <h1>Создание нового урока</h1>
+        <a href="{{ path('app_course_show', {'id': lesson.course.id}) }}">{{ lesson.course.name }}</a>
+        {{ include('lesson/_form.html.twig') }}
+    </div>
 {% endblock %}

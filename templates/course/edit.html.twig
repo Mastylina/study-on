@@ -3,9 +3,11 @@
 {% block title %}Edit Course{% endblock %}
 
 {% block body %}
-    <h1>Изменить курс</h1>
-
-    {{ include('course/_form.html.twig', {'button_label': 'Сохранить'}) }}
-
-    {{ include('course/_delete_form.html.twig', {'button_label': 'Удалить'}) }}
+    <h1>{{ course.name }}</h1>
+    <div class="container-fluid border-bottom border-light">
+        {{ include('course/_form.html.twig', {'button_label': 'Сохранить'}) }}
+    </div>
+    <div class="container-fluid">
+        {{ include('course/_delete_form.html.twig', {'button_label': 'Удалить'}) }}
+    </div>
 {% endblock %}

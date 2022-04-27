@@ -34,7 +34,7 @@ class CourseType extends AbstractType
                     ])
                 ],
             ])
-            ->add('description', TextType::class, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Описание',
                 'required' => false,
                 'constraints' => [new Length([

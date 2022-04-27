@@ -3,24 +3,24 @@
 {% block title %}Course index{% endblock %}
 
 {% block body %}
-    <h1>Курсы</h1>
-    <div class="container-fluid">
-      <div class="row">
+<h1>Курсы</h1>
+<div class="container-fluid">
+    <div class="row">
         {% for course in courses %}
 
             <div class="col-sm-6 my-md-2">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ course.name }}</h5>
-                    <p class="card-text">{{ course.description }}</p>
-                    <a href="{{ path('app_course_show', {'id': course.id}) }}">Пройти</a>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <p class="card-text">{{ course.description }}</p>
+                        <a href="{{ path('app_course_show', {'id': course.id}) }}">Пройти</a>
+                    </div>
                 </div>
-            </div>
             </div>
 
         {% else %}
-                colspan="5">no records found
+            colspan="5">no records found
         {% endfor %}
     </div>
     <a class="btn btn-outline-secondary mt-3" href="{{ path('app_course_new') }}">Новый курс</a>
-{% endblock %}
+    {% endblock %}

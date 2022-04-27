@@ -26,6 +26,7 @@ class LessonType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
+                'label' => 'Название',
                 'required' => true,
                 'constraints' => [new Length([
                     'max' => 255,
@@ -33,7 +34,8 @@ class LessonType extends AbstractType
                 ])
                 ],
             ])
-            ->add('content', TextType::class, [
+            ->add('content', TextareaType::class, [
+                'label' => 'Содержимое урока',
                 'required' => true
             ])
             ->add('number', NumberType::class, [
