@@ -1,0 +1,11 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Страница не найдена </h1>
+    <h2> Ошибка 404</h2>
+    <p>
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('app_course_index') }}">return to the homepage</a>.
+    </p>
+{% endblock %}
