@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ course.name }}</h5>
                         <p class="card-text">{{ course.description }}</p>
-                        <a href="{{ path('app_course_show', {'id': course.id}) }}">Пройти</a>
+                        <a href="{{ path('app_course_show', {'id': course.id}) }}" class="card-link">Пройти</a>
                     </div>
                 </div>
             </div>
@@ -22,5 +22,5 @@
             colspan="5">no records found
         {% endfor %}
     </div>
-    <a class="btn btn-outline-secondary mt-3" href="{{ path('app_course_new') }}">Новый курс</a>
+    <a class="course__new btn btn-outline-secondary mt-3" href="{{ path('app_course_new') }}">Новый курс</a>
     {% endblock %}

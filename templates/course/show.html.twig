@@ -21,11 +21,11 @@
                 <a class="btn btn-outline-secondary mt-3" href="{{ path('app_course_index') }}">Вернуться к списку</a>
             </div>
             <div class="col">
-                <a class="btn btn-outline-secondary mt-3" href="{{ path('app_course_edit', {'id': course.id}) }}">Редактировать
+                <a class="course__edit btn btn-outline-secondary mt-3" href="{{ path('app_course_edit', {'id': course.id}) }}">Редактировать
                     курс</a>
             </div>
             <div class="col">
-                <a class="btn btn-outline-secondary mt-3" href="{{ path('app_lesson_new', {'course': course.id}) }}">Добавить
+                <a class="lesson__new btn btn-outline-secondary mt-3" href="{{ path('app_lesson_new', {'course': course.id}) }}">Добавить
                     урок</a>
             </div>
             <div class="col">

@@ -10,6 +10,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
 class CourseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -18,20 +20,28 @@ class CourseType extends AbstractType
             ->add('code', TextType::class, [
                 'label' => 'Код курса',
                 'required' => true,
-                'constraints' => [new Length([
-                    'max' => 255,
-                    'maxMessage' => 'Превышена максимальная длина символов'
-                ])
+                'constraints' => [
+                    new Length ([
+                        'max' => 255,
+                        'maxMessage' => 'Превышена максимальная длина символов'
+                    ]),
+                    new NotBlank([
+                        'message' => 'Поле не может быть пустым',
+                    ]),
                 ],
             ])
 
             ->add('name' , TextType::class, [
                 'label' => 'Название',
                 'required' => true,
-                'constraints' => [new Length([
-                    'max' => 255,
-                    'maxMessage' => 'Превышена максимальная длина символов'
-                    ])
+                'constraints' => [
+                    new Length ([
+                        'max' => 255,
+                        'maxMessage' => 'Превышена максимальная длина символов'
+                    ]),
+                    new NotBlank([
+                        'message' => 'Поле не может быть пустым',
+                    ]),
                 ],
             ])
             ->add('description', TextareaType::class, [

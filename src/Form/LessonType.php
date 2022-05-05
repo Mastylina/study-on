@@ -28,26 +28,39 @@ class LessonType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Название',
                 'required' => true,
-                'constraints' => [new Length([
-                    'max' => 255,
-                    'maxMessage' => 'Превышена максимальная длина символов'
-                ])
+                'constraints' => [
+                    new Length([
+                        'max' => 255,
+                        'maxMessage' => 'Превышена максимальная длина символов'
+                    ]),
+                    new NotBlank([
+                        'message' => 'Поле не может быть пустым',
+                    ]),
                 ],
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Содержимое урока',
-                'required' => true
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Поле не может быть пустым',
+                    ]),
+                ],
+
             ])
             ->add('number', NumberType::class, [
-                    'label' => 'Порядковый номер',
-                    'constraints' => [
-                        new Range([
-                           'notInRangeMessage' => 'Значение поля должно быть в пределах от {{ min }} до {{ max }}',
-                            'min' => 1,
-                            'max' => 10000,
-                        ]),
-                    ],
-                ])
+                'label' => 'Порядковый номер',
+                'constraints' => [
+                    new Range([
+                        'notInRangeMessage' => 'Значение поля должно быть в пределах от {{ min }} до {{ max }}',
+                        'min' => 1,
+                        'max' => 10000,
+                    ]),
+                    new NotBlank([
+                        'message' => 'Поле не может быть пустым',
+                    ]),
+                ],
+            ])
             ->add('course', HiddenType::class)
         ;
         $builder->get('course')
