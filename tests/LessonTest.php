@@ -53,7 +53,7 @@ class LessonControllerTest extends AbstractTest
 
         // запросим не существующую страницу
         $client = self::getClient();
-        $crawler = $client->request('GET', $this->getPathLesson() . '/-1');
+        $crawler = $client->request('GET', $this->getPathLesson() . '/14558');
         $this->assertResponseNotFound();
     }
 

@@ -55,21 +55,20 @@ class CourseTest extends AbstractTest
         // Запрос страницы создания нового курса
         self::getClient()->request('POST', $this->getPath() . '/new');
         $this->assertResponseOk();
+        $findValue = $em->getRepository(Course::class)->findOneBy([]);
+        // проход по курсу и соответствующим страницам
+        self::getClient()->request('GET', $this->getPath() . '/' . $findValue->getId());
+        $this->assertResponseOk();
 
-        // проход циклом по всем курсам и соответствующим страницам
-        foreach ($courses as $course) {
-            self::getClient()->request('GET', $this->getPath() . '/' . $course->getId());
-            $this->assertResponseOk();
+        self::getClient()->request('GET', $this->getPath() . '/' . $findValue->getId() . '/edit');
+        $this->assertResponseOk();
 
-            self::getClient()->request('GET', $this->getPath() . '/' . $course->getId() . '/edit');
-            $this->assertResponseOk();
+        self::getClient()->request('POST', $this->getPath() . '/' . $findValue->getId() . '/edit');
+        $this->assertResponseOk();
 
-            self::getClient()->request('POST', $this->getPath() . '/' . $course->getId() . '/edit');
-            $this->assertResponseOk();
-        }
         // проверка, что при обращении по несуществующему URL курса/урока и так далее отдается 404
         // присвоим переменной не существующий путь
-        $url = $this->getPath() . '/-1';
+        $url = $this->getPath() . '/0';
         // запросим не существующую страницу
         $client->request('GET', $url);
         $this->assertResponseNotFound();
@@ -84,6 +83,7 @@ class CourseTest extends AbstractTest
         foreach ($courses as $course) {
             $crawler = self::getClient()->request('GET', $this->getPath() . '/' . $course->getId());
             $this->assertResponseOk();
+
             // получаем кол-во уроков со страницы курса
             $lessonsCount = $crawler->filter('ol > li')->count();
             // получаем число уроков для курса из бд
@@ -92,6 +92,7 @@ class CourseTest extends AbstractTest
             static::assertEquals($lessonsCountFromBD, $lessonsCount);
         }
     }
+
     // Тест для проверки добавления новых параметров курса
     public function testValidValueCourse(): void
     {

@@ -47,7 +47,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_course_show", methods={"GET"})
+     * @Route("/{id}", requirements={"id"="\d+"}, name="app_course_show", methods={"GET"})
      */
     public function show(Course $course, LessonRepository $lessonRepository): Response
     {
@@ -59,7 +59,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="app_course_edit", methods={"GET", "POST"})
+     * @Route("/{id}/edit", requirements={"id"="\d+"}, name="app_course_edit", methods={"GET", "POST"})
      */
     public function edit(Request $request, Course $course, CourseRepository $courseRepository): Response
     {
@@ -78,7 +78,7 @@ class CourseController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="app_course_delete", methods={"POST"})
+     * @Route("/{id}", requirements={"id"="\d+"}, name="app_course_delete", methods={"POST"})
      */
     public function delete(Request $request, Course $course, CourseRepository $courseRepository): Response
     {
