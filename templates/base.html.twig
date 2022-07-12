@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <nav class="navbar navbar-light bg-light">
-            <div class="container-fluid">
-                <h3> Study-on</h3>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <h2>Study_on</h2>
+            <div>
+                {% if app.user %}
+                    <a href="{{ path('profile') }}">Профиль</a>
+                    <a href="{{ path('app_logout') }}">Выход</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Вход</a>
+                    <a href="{{ path('app_register') }}">Регистрация</a>
+                {% endif %}
             </div>
-        </nav>
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+        </div>
+    </nav>
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
 </html>

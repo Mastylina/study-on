@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    {% if errors is defined %}
+        <div class="alert alert-danger">
+            <p class="m-0"> {{ errors }}</p>
+        </div>
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-success">{{ button_label|default('Зарегистрироваться') }}</button>
+    {{ form_end(form) }}
+{% endblock %}
