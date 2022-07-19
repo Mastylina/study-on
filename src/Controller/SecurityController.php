@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Dto\Response\UserRegisterDto;
 use App\Exception\BillingUnavailableException;
+use App\Exception\ClientException;
 use App\Form\RegisterType;
-use App\Model\UserDTO;
+use App\Model\UserDto;
 use App\Security\AppCustomAuthenticator;
+use App\Security\User;
 use App\Service\BillingClient;
 use App\Service\DecodingJwt;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,44 +49,41 @@ class SecurityController extends AbstractController
     }
 
     /**
-     *  @Route("/register", name="app_register")
+     * @Route("/register", name="app_register")
      */
-
-    public function register(Request $request, UserAuthenticatorInterface $authenticator, AppCustomAuthenticator $formAuthenticator, BillingClient $billingClient
+    public function register(
+        Request $request,
+        UserAuthenticatorInterface $authenticator,
+        AppCustomAuthenticator $formAuthenticator,
+        BillingClient $billingClient,
+        DecodingJwt $decodingJwt
     ): Response {
         if ($this->getUser()) {
-            return $this->redirectToRoute('profile');
+            return $this->redirectToRoute('app_course_index');
         }
 
-        $registerRequest = new UserRegisterDto();
-        $form = $this->createForm(RegisterType::class, $registerRequest);
+        $userDto = new UserDto();
+        $form = $this->createForm(RegisterType::class, $userDto);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $user = $billingClient->register($registerRequest);
-            } catch (BillingException $e) {
+                $userDto = $billingClient->register($userDto);
+
+                $user = User::fromDto($userDto, $decodingJwt);
+            } catch (ClientException $e) {
                 return $this->render('security/registration.html.twig', [
                     'form' => $form->createView(),
-                    'errors' => json_decode($e->getMessage(), true),
+                    'errors' => $e->getMessage(),
                 ]);
             } catch (BillingUnavailableException $e) {
-                return $this->render('security/registration.html.twig', [
-                    'form' => $form->createView(),
-                    'errors' => ['billing' => [$e->getMessage()]],
-                ]);
+                throw new BillingUnavailableException($e->getMessage());
             }
 
-            return $authenticator->authenticateUser(
-                $user,
-                $formAuthenticator,
-                $request
-            );
+            return $authenticator->authenticateUser($user, $formAuthenticator, $request);
         }
-
         return $this->render('security/registration.html.twig', [
             'form' => $form->createView(),
-            'errors' => ''
         ]);
     }
 

@@ -2,12 +2,12 @@
 
 namespace App\Security;
 
-use App\Model\UserDTO;
+use App\Model\UserDto;
 use App\Service\DecodingJwt;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private $email;
 
@@ -18,6 +18,20 @@ class User implements UserInterface
     private $password;
 
     private $refreshToken;
+
+    public static function fromDto(UserDto $userDto, DecodingJwt $decodingJwt): self
+    {
+        $user = new self();
+
+        $decodingJwt->decode($userDto->getToken());
+
+        $user->setEmail($decodingJwt->getUsername());
+        $user->setRoles($decodingJwt->getRoles());
+        $user->setApiToken($userDto->getToken());
+        $user->setRefreshToken($userDto->getRefreshToken());
+
+        return $user;
+    }
 
     public function getEmail(): ?string
     {
@@ -38,15 +52,7 @@ class User implements UserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
-    }
-
-    /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
-     */
-    public function getUsername(): string
-    {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -55,7 +61,7 @@ class User implements UserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
+// guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
@@ -66,41 +72,6 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
-     *
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-        return $this;
-    }
-
-    /**
-     * This method can be removed in Symfony 6.0 - is not needed for apps that do not check user passwords.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getApiToken(): string
@@ -115,6 +86,38 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+// If you store any temporary, sensitive data on the user, clear it here
+// $this->plainPassword = null;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+// TODO: Implement getSalt() method.
+    }
+
+    public function getUsername()
+    {
+// TODO: Implement getUsername() method.
+    }
+    /**
+     * @return mixed
+     */
     public function getRefreshToken(): string
     {
         return $this->refreshToken;
@@ -126,17 +129,5 @@ class User implements UserInterface
     public function setRefreshToken(string $refreshToken): void
     {
         $this->refreshToken = $refreshToken;
-    }
-    public static function fromDto(UserDto $userDto, DecodingJwt $decodingJwt): self
-    {
-        $user = new self();
-
-        $decodingJwt->decode($userDto->token);
-
-        $user->setEmail($decodingJwt->getUsername());
-        $user->setRoles($decodingJwt->getRoles());
-        $user->setApiToken($userDto->token);
-
-        return $user;
     }
 }

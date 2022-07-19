@@ -2,7 +2,7 @@
 
 namespace App\Exception;
 
-class ClientException
+class ClientException extends \Exception
 {
 
 }

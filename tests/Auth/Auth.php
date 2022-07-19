@@ -3,6 +3,7 @@
 
 namespace App\Tests\Auth;
 
+use App\Model\UserDto;
 use App\Service\BillingClient;
 use App\Tests\AbstractTest;
 use App\Tests\Mock\BillingClientMock;
@@ -16,35 +17,37 @@ class Auth extends AbstractTest
 {
     private $serializer;
 
-    public function setSerializer(SerializerInterface $serializer): void
+    public function setSerializer(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
 
     public function auth(string $data)
     {
-        $requestData = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
+        /** @var UserDto $userDto */
+        $userDto = $this->serializer->deserialize($data, UserDto::class, 'json');
+
         $this->getBillingClient();
         $client = self::getClient();
-
         $crawler = $client->request('GET', '/login');
         $this->assertResponseOk();
 
         $form = $crawler->selectButton('Вход')->form();
-        $form['email'] = $requestData['username'];
-        $form['password'] = $requestData['password'];
+        $form['email'] = $userDto->getUsername();
+        $form['password'] = $userDto->getPassword();
         $client->submit($form);
 
         $error = $crawler->filter('#errors');
-
         self::assertCount(0, $error);
 
         $crawler = $client->followRedirect();
-        $this->assertResponseOk();
 
+        $this->assertResponseOk();
 
         self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
         return $crawler;
+
+
     }
 
     // Метод для замены сервиса билинга на Mock версию для тестов

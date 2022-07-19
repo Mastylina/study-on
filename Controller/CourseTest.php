@@ -8,6 +8,7 @@ use App\Tests\AbstractTest;
 use App\Tests\Auth\Auth;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use App\Service\DecodingJwt;
 
 class CourseTest extends AbstractTest
 {

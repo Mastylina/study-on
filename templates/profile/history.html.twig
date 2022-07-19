@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Моя история/Профиль/StudyOn{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-2">Моя история</h1>
+    <div class="row justify-content-center mt-5">
+        <div class="col align-items-center">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Дата создания</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col" class="w-25">Название</th>
+                    <th scope="col">Сумма</th>
+                    <th scope="col">Код курса</th>
+                    <th scope="col">Дата окончания</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for transactionDto in transactionsDto %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ transactionDto.createdAt}}</td>
+                    <td>{{ transactionDto.type }}</td>
+                    <td>
+                        {% if courses!= NULL and transactionDto.courseCode != NULL %}
+                            {{ courses[transactionDto.courseCode].name }}
+                        {% endif %}
+                    </td>
+                    <td>{{ transactionDto.amount }}</td>
+                    <td>
+                        {% if courses != NULL and transactionDto.courseCode != NULL %}
+                            <a href="{{ path('app_course_show', {'id': courses[transactionDto.courseCode].id }) }}">
+                                {{ transactionDto.courseCode }}
+                            </a>
+                        {% else %}
+                            {{ transactionDto.courseCode }}
+                        {% endif %}
+                    </td>
+                    <td>{{ transactionDto.expiresAt }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

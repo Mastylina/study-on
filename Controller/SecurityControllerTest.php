@@ -38,7 +38,7 @@ class SecurityControllerTest extends AbstractTest
         // Работа с формой
         $form = $crawler->selectButton('Зарегистрироваться')->form();
 
-        $form['register[username]'] = 'test@intaro.ru';
+        $form['register[username]'] = 'intaro12333444444@intaro.ru';
         $form['register[password][first]'] = 'intaro123';
         $form['register[password][second]'] = 'intaro123';
 
@@ -142,39 +142,36 @@ class SecurityControllerTest extends AbstractTest
         $auth->setSerializer($this->serializer);
         // Формируем данные для авторизации
         $data = [
-            'username' => 'artem@user.com',
-            'password' => '123654'
+            'username' => 'user@mail.ru',
+            'password' => 'user123'
         ];
         $requestData = $this->serializer->serialize($data, 'json');
         $crawler = $auth->auth($requestData);
-
-        //____________________________Неуспешная авторизация____________________________
         $client = self::getClient();
 
-        // Выйдем из прошлого аккаунта
+        $this->assertResponseOk();
+        self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
+
         $linkLogout = $crawler->selectLink('Выход')->link();
         $crawler = $client->click($linkLogout);
+
         $this->assertResponseRedirect();
         self::assertEquals('/logout', $client->getRequest()->getPathInfo());
 
-        // Редиректит на страницу /
         $crawler = $client->followRedirect();
-        $this->assertResponseRedirect();
         self::assertEquals('/', $client->getRequest()->getPathInfo());
-        // Редиректит на страницу /courses/
-        $crawler = $client->followRedirect();
-        self::assertEquals('/courses/', $client->getRequest()->getPathInfo());
+
         // Переходим на страницу /login
         $crawler = $client->request('GET', '/login');
         $this->assertResponseOk();
 
-        // Формируем данные для авторизации, где будет неверный пароль
+        // Формируем данные для авторизации
         $data = [
-            'username' => 'artem@user.com',
-            'password' => 'user'
+            'username' => 'user@yandex.ru',
+            'password' => 'user654'
         ];
         $requestData = $this->serializer->serialize($data, 'json');
-        // Авторизация пользователя
+
         $auth = new Auth();
         $auth->setSerializer($this->serializer);
 
@@ -186,12 +183,12 @@ class SecurityControllerTest extends AbstractTest
         $form['password'] = $requestData['password'];
         $client->submit($form);
 
-        // Проверяем, что редиректа на курсы не произойдет
+
         self::assertFalse($client->getResponse()->isRedirect('/courses/'));
         $crawler = $client->followRedirect();
 
-        // Проверяем, что пояивлась ошибка
         $error = $crawler->filter('#errors');
         self::assertEquals('Проверьте правильность введёного логина и пароля', $error->text());
+
     }
 }
