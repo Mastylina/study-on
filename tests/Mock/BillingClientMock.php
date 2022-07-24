@@ -14,6 +14,7 @@ use App\Model\UserDto;
 use App\Security\User;
 use App\Service\BillingClient;
 use App\Service\DecodingJwt;
+use DateInterval;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -61,54 +62,46 @@ class BillingClientMock extends BillingClient
         $dataCourse = [
             // Арендные
             [
-                'code' => 'AREND199230SKLADS',
-                'title' => 'Портфель роста 2021',
-                'type' => $this->typesCourse[1],
-                'price' => 2021,
+                'code' => 'PPBIB',
+                'title' => 'Программирование на Python (базовый)',
+                'type' => $this->typesCourse[2],
+                'price' => 2000,
             ],
             [
-                'code' => 'AREND948120385129',
-                'title' => 'Успешная торговля каждый день',
+                'code' => 'PPBI',
+                'title' => 'Программирование на Python (продвинутый)',
                 'type' => $this->typesCourse[1],
+                'price' => 2000,
+            ],
+            [
+                'code' => 'PPBI2',
+                'title' => 'Программирование на Python 2',
+                'type' => $this->typesCourse[3],
+                'price' => 2000,
+            ],
+            [
+                'code' => 'MSCB',
+                'title' => 'Математическая статистика (базовый)',
+                'type' => $this->typesCourse[2],
                 'price' => 1000,
             ],
             [
-                'code' => 'AREND318305889120',
-                'title' => 'Покупай/продовай на сигналах. Ленивый трейдинг',
-                'type' => $this->typesCourse[1],
+                'code' => 'MSC',
+                'title' => 'Математическая статистика',
+                'type' => $this->typesCourse[3],
+                'price' => 1000,
+            ],
+            [
+                'code' => 'CAMPB',
+                'title' => 'Курс подготовки вожатых (базовый)',
+                'type' => $this->typesCourse[2],
                 'price' => 3000,
             ],
-            // Бесплатные курсы
             [
-                'code' => 'BPSKSODSAJGJSKAOD983A',
-                'title' => 'C чего начать новичку?',
-                'type' => $this->typesCourse[2],
-                'price' => 0,
-            ],
-            [
-                'code' => 'JZLAO2390KSALLFASK123',
-                'title' => 'Как выбрать надежного брокера?',
-                'type' => $this->typesCourse[2],
-                'price' => 0
-            ],
-            // Покупные
-            [
-                'code' => 'MLSADKLD13213KSDMDNVM35',
-                'title' => 'Основы рынка',
-                'type' => $this->typesCourse[3],
-                'price' => 15000,
-            ],
-            [
-                'code' => 'QNDIQJWDALSDASDJGLSAD',
-                'title' => 'Инвестор',
-                'type' => $this->typesCourse[3],
-                'price' => 50000,
-            ],
-            [
-                'code' => 'MSALDLGSALDFJASLDDASODP',
-                'title' => 'Трейдер',
-                'type' => $this->typesCourse[3],
-                'price' => 65000,
+                'code' => 'CAMP',
+                'title' => 'Курс подготовки вожатых (продвинутый)',
+                'type' => $this->typesCourse[1],
+                'price' => 3000,
             ],
         ];
         $json = $this->serializer->serialize($dataCourse, 'json');
@@ -196,7 +189,7 @@ class BillingClientMock extends BillingClient
         return 'header.' . $query . '.signature';
     }
 
-    public function getCurrentUser(User $user, DecodingJwt $decodingJwt)
+    public function getUser(User $user, DecodingJwt $decodingJwt)
     {
         $decodingJwt->decoding($user->getApiToken());
         if ($decodingJwt->getUsername() === $this->userDefault->getUsername()) {
@@ -205,7 +198,7 @@ class BillingClientMock extends BillingClient
                 'roles' => $decodingJwt->getRoles(),
                 'balance' => $this->userDefault->getBalance(),
             ];
-            return $this->serializer->serialize($data, 'json');
+            return $data;
         }
         if ($decodingJwt->getUsername() === $this->userSuperAdmin->getUsername()) {
             $data = [
@@ -213,7 +206,7 @@ class BillingClientMock extends BillingClient
                 'roles' => $decodingJwt->getRoles(),
                 'balance' => $this->userSuperAdmin->getBalance(),
             ];
-            return $this->serializer->serialize($data, 'json');
+            return $data;
         }
 
         $data = [
@@ -221,7 +214,7 @@ class BillingClientMock extends BillingClient
             'roles' => $decodingJwt->getRoles(),
             'balance' => 0,
         ];
-        return $this->serializer->serialize($data, 'json');
+        return $data;
     }
 
     public function getAllCourses(): array
@@ -231,7 +224,6 @@ class BillingClientMock extends BillingClient
 
     public function transactionsHistory(User $user, string $request = ''): array
     {
-        dd($user);
         if ($request === '') {
             // декодируем токен
             $decodingJwt = new  DecodingJwt();

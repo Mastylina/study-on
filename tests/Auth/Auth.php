@@ -42,6 +42,7 @@ class Auth extends AbstractTest
 
         $crawler = $client->followRedirect();
 
+
         $this->assertResponseOk();
 
         self::assertEquals('/courses/', $client->getRequest()->getPathInfo());

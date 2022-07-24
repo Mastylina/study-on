@@ -38,7 +38,7 @@ class SecurityControllerTest extends AbstractTest
         // Работа с формой
         $form = $crawler->selectButton('Зарегистрироваться')->form();
 
-        $form['register[username]'] = 'test@intaro.ru';
+        $form['register[username]'] = 'testttt@intaro.ru';
         $form['register[password][first]'] = 'intaro123';
         $form['register[password][second]'] = 'intaro123';
 
@@ -153,6 +153,7 @@ class SecurityControllerTest extends AbstractTest
 
         // Выйдем из прошлого аккаунта
         $linkLogout = $crawler->selectLink('Выход')->link();
+
         $crawler = $client->click($linkLogout);
         $this->assertResponseRedirect();
         self::assertEquals('/logout', $client->getRequest()->getPathInfo());
